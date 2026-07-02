@@ -79,7 +79,16 @@ skips control/format/combining/unassigned **and emoji-property** codepoints (the
 latter render as color glyphs; pass `--emoji` to keep them), and title-cases the
 ALL-CAPS Unicode names. A glyph's group is its **block**, derived from the
 codepoint at load time by `blockOf()` — no category is stored. Use the in-app **＋ add** flow
-for personal characters. Browser state is stored under three keys:
+for personal characters.
+
+Astral-plane blocks (above `U+FFFF`, e.g. Alchemical Symbols `U+1F700–1F77F`)
+aren't covered by the primary display fonts, so [`fontStack()`](src/lib/fonts.ts)
+appends **Noto Sans Symbols 2** (loaded via the Google Fonts link in
+[`index.html`](index.html)) as a fallback. The same stack drives both the grid
+and the offscreen raster the wireframe is built from, so a glyph renders
+identically in each — no tofu.
+
+Browser state is stored under three keys:
 
 - `glyphs.cols` — `{ Favorites: codepointHex[] }`
 - `glyphs.custom` — user-archived glyph records
