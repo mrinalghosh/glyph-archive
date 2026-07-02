@@ -172,6 +172,23 @@ body {
   text-transform: uppercase;
   color: rgba(20, 20, 20, 0.5);
 }
+/* Mobile-only "‹ browse" affordance; hidden in the side-by-side desktop split. */
+.sback {
+  display: none;
+  font-family: inherit;
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 4px 9px;
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--ink);
+  cursor: pointer;
+  transition: 0.1s;
+}
+.sback:hover {
+  background: var(--hover);
+}
 .vtog {
   display: flex;
   border: 1px solid var(--line);
@@ -440,6 +457,10 @@ canvas.wire:active {
 .sbar b {
   color: var(--ink);
   font-weight: 700;
+}
+.sbar-hint {
+  margin-left: auto;
+  opacity: 0.6;
 }
 
 /* ---- settings panel (right drawer) --------------------------------------- */
@@ -721,4 +742,66 @@ canvas.wire:active {
   font-size: 10.5px;
   color: oklch(0.55 0.16 25);
   letter-spacing: 0.02em;
+}
+
+/* ---- mobile: single-pane master/detail ----------------------------------- */
+/* Below this width the stage's 392px min can't share a row with the grid, so
+   the layout collapses to one pane at a time (see App's `mobilePane`). */
+@media (max-width: 700px) {
+  /* header: tighten spacing, drop the count, keep add/settings reachable */
+  .hbar {
+    gap: 8px;
+    padding: 0 10px;
+  }
+  .brand {
+    white-space: nowrap;
+  }
+  .search {
+    max-width: none;
+    min-width: 0;
+    padding: 8px 9px;
+  }
+  .count {
+    display: none;
+  }
+  .hbtn {
+    padding: 6px 8px;
+  }
+
+  /* one pane fills the row; the class on .main picks which */
+  .stage {
+    width: 100%;
+    min-width: 0;
+    border-right: none;
+  }
+  .main--grid .stage {
+    display: none;
+  }
+  .main--stage .browser {
+    display: none;
+  }
+
+  /* stage header: swap the descriptive label for the back button */
+  .sback {
+    display: inline-block;
+  }
+  .shead-label {
+    display: none;
+  }
+
+  /* keep the big flat preview inside a narrow viewport */
+  .flat {
+    font-size: 150px;
+  }
+
+  /* touch has no arrow keys / hover-drag hint to advertise */
+  .sbar-hint {
+    display: none;
+  }
+
+  /* settings drawer covers the full width on a phone */
+  .panel {
+    left: 0;
+    width: auto;
+  }
 }

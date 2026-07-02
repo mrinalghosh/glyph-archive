@@ -25,6 +25,9 @@ export default function App() {
   const [status, setStatus] = useState('> drag the wireframe · click a glyph')
   const [showSettings, setShowSettings] = useState(false)
   const [showAdd, setShowAdd] = useState(false)
+  // Mobile is a single-pane master/detail: 'grid' browses, 'stage' inspects the
+  // selection. Ignored on wide screens, where both panes show side by side.
+  const [mobilePane, setMobilePane] = useState<'grid' | 'stage'>('grid')
 
   // ---- derived data ----
   // Filter chips are the blocks actually present among the current glyphs, in
@@ -72,6 +75,8 @@ export default function App() {
   const select = useCallback((g: Glyph) => {
     setSelCp(g.cp)
     setStatus('> ' + g.name)
+    // On mobile, picking a glyph reveals the inspector; no-op on wide screens.
+    setMobilePane('stage')
   }, [])
 
   const toggleFav = useCallback(() => {
@@ -140,7 +145,7 @@ export default function App() {
         settingsOpen={showSettings}
       />
       <FilterBar activeKey={activeKey} blocks={blocks} onSelect={setActiveKey} />
-      <div className="main">
+      <div className={'main main--' + mobilePane}>
         <Stage
           glyph={cur}
           view={view}
@@ -150,6 +155,7 @@ export default function App() {
           onCopy={copyText}
           onToggleFavorite={toggleFav}
           onRemove={cur.custom ? handleRemove : undefined}
+          onBack={() => setMobilePane('grid')}
         />
         <Browser
           glyphs={shown}

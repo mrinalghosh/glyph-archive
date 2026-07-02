@@ -12,6 +12,8 @@ interface Props {
   onToggleFavorite: () => void
   /** Present only for user-added glyphs; unarchives the glyph. */
   onRemove?: () => void
+  /** Return to the grid on mobile (single-pane master/detail). */
+  onBack: () => void
 }
 
 /** The left inspector column: view toggle, 3D/flat preview, and detail readout. */
@@ -24,11 +26,15 @@ export function Stage({
   onCopy,
   onToggleFavorite,
   onRemove,
+  onBack,
 }: Props) {
   return (
     <div className="stage">
       <div className="shead">
-        <span>{view === 'wire' ? 'wireframe · drag to orbit' : 'flat · big preview'}</span>
+        <button className="sback" onClick={onBack} aria-label="back to grid">
+          ‹ browse
+        </button>
+        <span className="shead-label">{view === 'wire' ? 'wireframe · drag to orbit' : 'flat · big preview'}</span>
         <div className="vtog">
           <button className={'vbtn' + (view === 'wire' ? ' on' : '')} onClick={() => onSetView('wire')}>
             wire
