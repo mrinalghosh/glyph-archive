@@ -9,7 +9,7 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "typecheck": "tsc -b --noEmit",
-    "gen:misc-technical": "node scripts/gen-glyphs.mjs --range 2300-23FF --cat misc-technical --export MISC_TECHNICAL --out src/data/blocks/miscTechnical.ts"
+    "gen:misc-technical": "node scripts/gen-glyphs.mjs --range 2300-23FF --export MISC_TECHNICAL --out src/data/blocks/miscTechnical.ts"
   },
   "dependencies": {
     "react": "^19.1.0",

@@ -2,7 +2,8 @@ import type { ActiveKey } from '../types'
 
 interface Props {
   activeKey: ActiveKey
-  categories: string[]
+  /** Unicode blocks present among the current glyphs (id = filter key + label). */
+  blocks: { id: string; name: string }[]
   onSelect: (key: ActiveKey) => void
 }
 
@@ -11,13 +12,15 @@ interface Chip {
   label: string
   cls: string
   onClick: () => void
+  /** Tooltip (used to show a block's full Unicode name behind its short id). */
+  title?: string
 }
 
 /**
- * The connected, segmented favorites/category filter row. Chips share borders
+ * The connected, segmented favorites/block filter row. Chips share borders
  * (`border-right:none`) except where an `end` modifier closes a group.
  */
-export function FilterBar({ activeKey, categories, onSelect }: Props) {
+export function FilterBar({ activeKey, blocks, onSelect }: Props) {
   const chips: Chip[] = [
     { key: 'all', label: 'all', cls: activeKey === 'all' ? 'on' : '', onClick: () => onSelect('all') },
     {
@@ -26,14 +29,21 @@ export function FilterBar({ activeKey, categories, onSelect }: Props) {
       cls: (activeKey === 'fav' ? 'on ' : '') + 'end',
       onClick: () => onSelect('fav'),
     },
-    { key: 'sep1', label: '·', cls: 'sep', onClick: () => {} },
-    ...categories.map((c): Chip => {
-      const key: ActiveKey = `cat:${c}`
-      return { key, label: c, cls: activeKey === key ? 'on' : '', onClick: () => onSelect(key) }
-    }),
   ]
-  // Close the category group.
-  chips[chips.length - 1].cls += ' end'
+
+  if (blocks.length) {
+    chips.push({ key: 'sep1', label: '·', cls: 'sep', onClick: () => {} })
+    blocks.forEach((b, i) => {
+      const key: ActiveKey = `block:${b.id}`
+      chips.push({
+        key,
+        label: b.id,
+        title: b.name,
+        cls: (activeKey === key ? 'on ' : '') + (i === blocks.length - 1 ? 'end' : ''),
+        onClick: () => onSelect(key),
+      })
+    })
+  }
 
   return (
     <div className="fbar">
@@ -43,7 +53,7 @@ export function FilterBar({ activeKey, categories, onSelect }: Props) {
             {ch.label}
           </span>
         ) : (
-          <button key={ch.key} className={'chip ' + ch.cls} onClick={ch.onClick}>
+          <button key={ch.key} className={'chip ' + ch.cls} onClick={ch.onClick} title={ch.title}>
             {ch.label}
           </button>
         ),

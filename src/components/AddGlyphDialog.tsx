@@ -3,7 +3,6 @@ import type { Glyph } from '../types'
 import { charFromHex, codepointHex, utf8Bytes } from '../lib/unicode'
 
 interface Props {
-  categories: string[]
   isArchived: (cp: string) => boolean
   onAdd: (g: Omit<Glyph, 'custom'>) => boolean
   onClose: () => void
@@ -11,13 +10,12 @@ interface Props {
 
 /**
  * Modal for archiving a new character. The user pastes/types any glyph; the
- * codepoint, decimal, and UTF-8 bytes are computed live. They supply a name and
- * category, and it's persisted into their collection.
+ * codepoint, decimal, and UTF-8 bytes are computed live. They supply a name;
+ * the glyph's block is derived from its codepoint. Persisted to their archive.
  */
-export function AddGlyphDialog({ categories, isArchived, onAdd, onClose }: Props) {
+export function AddGlyphDialog({ isArchived, onAdd, onClose }: Props) {
   const [raw, setRaw] = useState('')
   const [name, setName] = useState('')
-  const [cat, setCat] = useState('custom')
 
   const cp = useMemo(() => (raw ? codepointHex(raw) : null), [raw])
   const char = cp ? charFromHex(cp) : ''
@@ -28,7 +26,7 @@ export function AddGlyphDialog({ categories, isArchived, onAdd, onClose }: Props
 
   const submit = () => {
     if (!canSubmit || !cp) return
-    const ok = onAdd({ c: char, cp, name: name.trim(), cat: cat.trim().toLowerCase() || 'custom' })
+    const ok = onAdd({ c: char, cp, name: name.trim() })
     if (ok) onClose()
   }
 
@@ -77,23 +75,6 @@ export function AddGlyphDialog({ categories, isArchived, onAdd, onClose }: Props
               placeholder="Unicode / descriptive name"
               spellCheck={false}
             />
-          </Field>
-
-          <Field label="category">
-            <input
-              className="tinput"
-              value={cat}
-              onChange={(e) => setCat(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && submit()}
-              list="glyph-categories"
-              placeholder="category"
-              spellCheck={false}
-            />
-            <datalist id="glyph-categories">
-              {categories.map((c) => (
-                <option key={c} value={c} />
-              ))}
-            </datalist>
           </Field>
 
           {duplicate && <div className="warn">that character is already in your archive.</div>}

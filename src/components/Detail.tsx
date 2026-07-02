@@ -1,5 +1,6 @@
 import type { Glyph } from '../types'
 import { detail } from '../lib/unicode'
+import { blockOf } from '../data/glyphs'
 
 interface Props {
   glyph: Glyph
@@ -39,6 +40,7 @@ function Row({
  */
 export function Detail({ glyph, isFavorite, onCopy, onToggleFavorite, onRemove }: Props) {
   const d = detail(glyph)
+  const block = blockOf(glyph.cp)?.name ?? '—'
   return (
     <div className="detail">
       <Row label="name" value={glyph.name} copy={() => onCopy(glyph.name, glyph.name)} name />
@@ -46,7 +48,7 @@ export function Detail({ glyph, isFavorite, onCopy, onToggleFavorite, onRemove }
       <Row label="decimal" value={d.decimal} copy={() => onCopy(String(d.decimal), String(d.decimal))} />
       <Row label="html" value={d.htmlEntity} copy={() => onCopy(d.htmlEntity, d.htmlEntity)} />
       <Row label="utf-8" value={d.utf8Bytes} copy={() => onCopy(d.utf8Bytes, d.utf8Bytes)} />
-      <Row label="category" value={glyph.cat} copy={() => onCopy(glyph.cat, glyph.cat)} />
+      <Row label="block" value={block} copy={() => onCopy(block, block)} />
       <div className="dact">
         <button className="btn" onClick={() => onCopy(glyph.c, `${glyph.c}  (${glyph.name})`)}>
           copy <span className="gbig">{glyph.c}</span>

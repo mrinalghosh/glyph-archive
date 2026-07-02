@@ -4,10 +4,8 @@ export interface Glyph {
   c: string
   /** Codepoint as uppercase hex, e.g. "2318". Used as the stable identity key. */
   cp: string
-  /** Unicode name, e.g. "Place of Interest Sign". */
+  /** Unicode name, e.g. "Place Of Interest Sign". */
   name: string
-  /** Category slug, e.g. "keyboard". */
-  cat: string
   /** True for user-added glyphs (persisted separately from the seed set). */
   custom?: boolean
 }
@@ -39,5 +37,5 @@ export interface Settings {
 /** Collection storage. Currently just the built-in `Favorites` list of codepoints (hex). */
 export type Collections = Record<string, string[]>
 
-/** Active filter key: all | favorites | a category. */
-export type ActiveKey = 'all' | 'fav' | `cat:${string}`
+/** Active filter key: all | favorites | a Unicode block (by id). */
+export type ActiveKey = 'all' | 'fav' | `block:${string}`

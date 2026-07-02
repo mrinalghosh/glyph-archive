@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { ActiveKey, Glyph, View } from './types'
-import { SEED_CATEGORIES } from './data/glyphs'
+import { BLOCKS, blockOf } from './data/glyphs'
 import { fontStack } from './lib/fonts'
 import { useCollections } from './hooks/useCollections'
 import { useCustomGlyphs } from './hooks/useCustomGlyphs'
@@ -27,11 +27,12 @@ export default function App() {
   const [showAdd, setShowAdd] = useState(false)
 
   // ---- derived data ----
-  const categories = useMemo(() => {
-    const present = new Set(glyphs.map((g) => g.cat))
-    const ordered = (SEED_CATEGORIES as readonly string[]).filter((c) => present.has(c))
-    const extra = [...present].filter((c) => !(SEED_CATEGORIES as readonly string[]).includes(c)).sort()
-    return [...ordered, ...extra]
+  // Filter chips are the blocks actually present among the current glyphs, in
+  // registry order; user-added glyphs outside every shipped block fall under 'other'.
+  const blocks = useMemo(() => {
+    const present = new Set(glyphs.map((g) => blockOf(g.cp)?.id ?? 'other'))
+    const shownBlocks = BLOCKS.filter((b) => present.has(b.id)).map((b) => ({ id: b.id, name: b.name }))
+    return present.has('other') ? [...shownBlocks, { id: 'other', name: 'Other' }] : shownBlocks
   }, [glyphs])
 
   const cur = useMemo(() => glyphs.find((g) => g.cp === selCp) ?? glyphs[0], [glyphs, selCp])
@@ -43,9 +44,11 @@ export default function App() {
     const pred = (g: Glyph) => {
       if (activeKey === 'all') return true
       if (activeKey === 'fav') return fav.includes(g.cp)
-      if (activeKey.startsWith('cat:')) return g.cat === activeKey.slice(4)
+      if (activeKey.startsWith('block:')) return (blockOf(g.cp)?.id ?? 'other') === activeKey.slice(6)
       return true
     }
+    // Fuzzy search matches intrinsic fields only — name, U+codepoint, raw hex,
+    // decimal, or an exact pasted character. It never matches the block/group.
     const matchQ = (g: Glyph) =>
       !q ||
       g.name.toLowerCase().includes(q) ||
@@ -136,7 +139,7 @@ export default function App() {
         onToggleSettings={() => setShowSettings((v) => !v)}
         settingsOpen={showSettings}
       />
-      <FilterBar activeKey={activeKey} categories={categories} onSelect={setActiveKey} />
+      <FilterBar activeKey={activeKey} blocks={blocks} onSelect={setActiveKey} />
       <div className="main">
         <Stage
           glyph={cur}
@@ -163,7 +166,6 @@ export default function App() {
       )}
       {showAdd && (
         <AddGlyphDialog
-          categories={categories}
           isArchived={(cp) => glyphs.some((g) => g.cp === cp)}
           onAdd={handleAdd}
           onClose={() => setShowAdd(false)}
