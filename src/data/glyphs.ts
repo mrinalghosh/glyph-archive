@@ -1,13 +1,14 @@
 import type { Glyph } from '../types'
+import { MISC_TECHNICAL } from './blocks/miscTechnical'
 
 /**
- * Seed glyph dataset — a curated starting set of technical, APL, astronomical,
- * geometric, and mark symbols. Users grow the collection by pasting their own
- * characters (persisted separately in localStorage); this array is the base.
+ * Hand-curated starter glyphs — technical, APL, astronomical, geometric, and
+ * mark symbols with intentional category slugs. These take precedence over
+ * generated blocks on codepoint collisions (see `mergeGlyphs`).
  *
  * Categories: keyboard, technical, apl, geometric, star, mark, math, astro.
  */
-export const SEED_GLYPHS: Glyph[] = [
+const CURATED: Glyph[] = [
   { c: '⌘', cp: '2318', name: 'Place of Interest Sign', cat: 'keyboard' },
   { c: '⌥', cp: '2325', name: 'Option Key', cat: 'keyboard' },
   { c: '⇧', cp: '21E7', name: 'Upwards White Arrow', cat: 'keyboard' },
@@ -44,10 +45,34 @@ export const SEED_GLYPHS: Glyph[] = [
   { c: '☸', cp: '2638', name: 'Wheel of Dharma', cat: 'mark' },
 ]
 
+/**
+ * Merge glyph groups, keeping the first record seen for each codepoint so the
+ * hand-curated entries win over bulk-imported blocks that repeat a codepoint.
+ */
+function mergeGlyphs(...groups: Glyph[][]): Glyph[] {
+  const seen = new Set<string>()
+  const out: Glyph[] = []
+  for (const g of groups.flat()) {
+    if (seen.has(g.cp)) continue
+    seen.add(g.cp)
+    out.push(g)
+  }
+  return out
+}
+
+/**
+ * The shipped dataset: curated glyphs first, then the full Miscellaneous
+ * Technical block (U+2300–U+23FF) generated from the Unicode Character Database
+ * via `npm run gen:misc-technical`. Users grow this at runtime by pasting their
+ * own characters (persisted separately in localStorage).
+ */
+export const SEED_GLYPHS: Glyph[] = mergeGlyphs(CURATED, MISC_TECHNICAL)
+
 /** Canonical category order (seed categories first; custom ones append at runtime). */
 export const SEED_CATEGORIES = [
   'keyboard',
   'technical',
+  'misc-technical',
   'apl',
   'geometric',
   'star',

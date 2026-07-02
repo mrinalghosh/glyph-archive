@@ -15,6 +15,9 @@ dist-ssr
 # Playwright MCP verification artifacts
 .playwright-mcp
 
+# Cached Unicode Character Database (re-downloaded by scripts/gen-glyphs.mjs)
+scripts/.cache
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
