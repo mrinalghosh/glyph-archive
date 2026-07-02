@@ -16,7 +16,8 @@
     "gen:misc-symbols": "node scripts/gen-glyphs.mjs --range 2600-26FF --export MISC_SYMBOLS --out src/data/blocks/miscSymbols.ts",
     "gen:dingbats": "node scripts/gen-glyphs.mjs --range 2700-27BF --export DINGBATS --out src/data/blocks/dingbats.ts",
     "gen:misc-symbols-arrows": "node scripts/gen-glyphs.mjs --range 2B00-2BFF --export MISC_SYMBOLS_AND_ARROWS --out src/data/blocks/miscSymbolsAndArrows.ts",
-    "gen:letterlike-symbols": "node scripts/gen-glyphs.mjs --range 2100-214F --export LETTERLIKE_SYMBOLS --out src/data/blocks/letterlikeSymbols.ts"
+    "gen:letterlike-symbols": "node scripts/gen-glyphs.mjs --range 2100-214F --export LETTERLIKE_SYMBOLS --out src/data/blocks/letterlikeSymbols.ts",
+    "gen:alchemical-symbols": "node scripts/gen-glyphs.mjs --range 1F700-1F77F --export ALCHEMICAL_SYMBOLS --out src/data/blocks/alchemicalSymbols.ts"
   },
   "dependencies": {
     "react": "^19.1.0",
