@@ -1,5 +1,7 @@
 import type { Glyph } from '../types'
 import { LETTERLIKE_SYMBOLS } from './blocks/letterlikeSymbols'
+import { ARROWS } from './blocks/arrows'
+import { MATHEMATICAL_OPERATORS } from './blocks/mathematicalOperators'
 import { MISC_TECHNICAL } from './blocks/miscTechnical'
 import { BOX_DRAWING } from './blocks/boxDrawing'
 import { BLOCK_ELEMENTS } from './blocks/blockElements'
@@ -30,6 +32,8 @@ export interface Block {
  */
 export const BLOCKS: Block[] = [
   { id: 'letterlike-symbols', name: 'Letterlike Symbols', lo: 0x2100, hi: 0x214f, glyphs: LETTERLIKE_SYMBOLS },
+  { id: 'arrows', name: 'Arrows', lo: 0x2190, hi: 0x21ff, glyphs: ARROWS },
+  { id: 'mathematical-operators', name: 'Mathematical Operators', lo: 0x2200, hi: 0x22ff, glyphs: MATHEMATICAL_OPERATORS },
   { id: 'misc-technical', name: 'Miscellaneous Technical', lo: 0x2300, hi: 0x23ff, glyphs: MISC_TECHNICAL },
   { id: 'box-drawing', name: 'Box Drawing', lo: 0x2500, hi: 0x257f, glyphs: BOX_DRAWING },
   { id: 'block-elements', name: 'Block Elements', lo: 0x2580, hi: 0x259f, glyphs: BLOCK_ELEMENTS },

@@ -17,6 +17,8 @@
     "gen:dingbats": "node scripts/gen-glyphs.mjs --range 2700-27BF --export DINGBATS --out src/data/blocks/dingbats.ts",
     "gen:misc-symbols-arrows": "node scripts/gen-glyphs.mjs --range 2B00-2BFF --export MISC_SYMBOLS_AND_ARROWS --out src/data/blocks/miscSymbolsAndArrows.ts",
     "gen:letterlike-symbols": "node scripts/gen-glyphs.mjs --range 2100-214F --export LETTERLIKE_SYMBOLS --out src/data/blocks/letterlikeSymbols.ts",
+    "gen:arrows": "node scripts/gen-glyphs.mjs --range 2190-21FF --export ARROWS --out src/data/blocks/arrows.ts",
+    "gen:mathematical-operators": "node scripts/gen-glyphs.mjs --range 2200-22FF --export MATHEMATICAL_OPERATORS --out src/data/blocks/mathematicalOperators.ts",
     "gen:alchemical-symbols": "node scripts/gen-glyphs.mjs --range 1F700-1F77F --export ALCHEMICAL_SYMBOLS --out src/data/blocks/alchemicalSymbols.ts"
   },
   "dependencies": {
