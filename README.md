@@ -74,10 +74,11 @@ node scripts/gen-glyphs.mjs --range 2500-257F \
      --export BOX_DRAWING --out src/data/blocks/boxDrawing.ts
 ```
 
-`gen-glyphs.mjs` downloads (and caches) `UnicodeData.txt`, skips
-control/format/combining/unassigned codepoints, and title-cases the ALL-CAPS
-Unicode names. A glyph's group is its **block**, derived from the codepoint at
-load time by `blockOf()` — no category is stored. Use the in-app **＋ add** flow
+`gen-glyphs.mjs` downloads (and caches) `UnicodeData.txt` and `emoji-data.txt`,
+skips control/format/combining/unassigned **and emoji-property** codepoints (the
+latter render as color glyphs; pass `--emoji` to keep them), and title-cases the
+ALL-CAPS Unicode names. A glyph's group is its **block**, derived from the
+codepoint at load time by `blockOf()` — no category is stored. Use the in-app **＋ add** flow
 for personal characters. Browser state is stored under three keys:
 
 - `glyphs.cols` — `{ Favorites: codepointHex[] }`
