@@ -1,5 +1,6 @@
 import type { Glyph } from '../types'
 import { MISC_TECHNICAL } from './blocks/miscTechnical'
+import { BOX_DRAWING } from './blocks/boxDrawing'
 
 /** A shipped Unicode block: an inclusive codepoint range and its generated glyphs. */
 export interface Block {
@@ -22,6 +23,7 @@ export interface Block {
  */
 export const BLOCKS: Block[] = [
   { id: 'misc-technical', name: 'Miscellaneous Technical', lo: 0x2300, hi: 0x23ff, glyphs: MISC_TECHNICAL },
+  { id: 'box-drawing', name: 'Box Drawing', lo: 0x2500, hi: 0x257f, glyphs: BOX_DRAWING },
 ]
 
 /** The full shipped dataset: every block's glyphs, in block order. */
