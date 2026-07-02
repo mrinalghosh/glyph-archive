@@ -675,6 +675,10 @@ canvas.wire:active {
   display: flex;
   align-items: center;
   justify-content: center;
+  /* Pad + scroll so a tall dialog stays fully reachable on short viewports
+     (landscape phones, or when the on-screen keyboard shrinks the viewport). */
+  padding: 16px;
+  overflow-y: auto;
   z-index: 30;
   animation: fade 0.14s ease;
 }
@@ -689,6 +693,9 @@ canvas.wire:active {
 .dialog {
   width: 380px;
   max-width: calc(100vw - 32px);
+  /* auto margins center within the padded overlay yet keep the top reachable
+     when the dialog is taller than the viewport (scrolls instead of clipping). */
+  margin: auto;
   background: var(--bg);
   border: 1px solid var(--ink);
   display: flex;

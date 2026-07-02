@@ -144,7 +144,16 @@ export default function App() {
         onToggleSettings={() => setShowSettings((v) => !v)}
         settingsOpen={showSettings}
       />
-      <FilterBar activeKey={activeKey} blocks={blocks} onSelect={setActiveKey} />
+      <FilterBar
+        activeKey={activeKey}
+        blocks={blocks}
+        onSelect={(key) => {
+          setActiveKey(key)
+          // On mobile, reveal the grid so the filter's effect is visible; a
+          // no-op on wide screens, where both panes are always shown.
+          setMobilePane('grid')
+        }}
+      />
       <div className={'main main--' + mobilePane}>
         <Stage
           glyph={cur}
