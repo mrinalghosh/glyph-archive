@@ -1,4 +1,5 @@
 import type { Glyph } from '../types'
+import { LETTERLIKE_SYMBOLS } from './blocks/letterlikeSymbols'
 import { MISC_TECHNICAL } from './blocks/miscTechnical'
 import { BOX_DRAWING } from './blocks/boxDrawing'
 import { BLOCK_ELEMENTS } from './blocks/blockElements'
@@ -27,6 +28,7 @@ export interface Block {
  * (`npm run gen:<block>`) and appending an entry here — no other wiring needed.
  */
 export const BLOCKS: Block[] = [
+  { id: 'letterlike-symbols', name: 'Letterlike Symbols', lo: 0x2100, hi: 0x214f, glyphs: LETTERLIKE_SYMBOLS },
   { id: 'misc-technical', name: 'Miscellaneous Technical', lo: 0x2300, hi: 0x23ff, glyphs: MISC_TECHNICAL },
   { id: 'box-drawing', name: 'Box Drawing', lo: 0x2500, hi: 0x257f, glyphs: BOX_DRAWING },
   { id: 'block-elements', name: 'Block Elements', lo: 0x2580, hi: 0x259f, glyphs: BLOCK_ELEMENTS },
