@@ -314,6 +314,14 @@ canvas.wire:active {
 }
 .gbig {
   font-family: var(--gf);
+  /* A larger glyph preview beside the small "copy" label. Box-centering the row
+     drops the bigger glyph's optical center below the all-caps label; nudge up
+     ~0.1em to split the difference so symbols and box-drawing glyphs both land
+     within ~1px of the label's optical center. em-relative to survive the
+     user-switchable display font. */
+  font-size: 1.5em;
+  line-height: 1;
+  transform: translateY(-0.1em);
 }
 .dact {
   display: flex;
@@ -322,6 +330,13 @@ canvas.wire:active {
 }
 .btn {
   flex: 1;
+  /* Center the button's content(s). For the single-glyph link/star buttons this
+     is all that's needed; the copy button's larger glyph is optically nudged in
+     .gbig to counter the box-centering drop. gap spaces the copy label + glyph. */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
   font-family: inherit;
   font-size: 11px;
   letter-spacing: 0.06em;
@@ -347,6 +362,12 @@ canvas.wire:active {
 .gh.on {
   background: var(--ink);
   color: var(--bg);
+}
+.linkbtn {
+  flex: none;
+  background: transparent;
+  color: var(--ink);
+  font-size: 10px;
 }
 .removeline {
   margin-top: 10px;

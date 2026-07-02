@@ -8,6 +8,8 @@ interface Props {
   /** Copy an arbitrary representation and echo `label` in the status bar. */
   onCopy: (text: string, label: string) => void
   onToggleFavorite: () => void
+  /** Copy a shareable link to the current glyph/view. */
+  onCopyLink: () => void
   /** Present only for user-added glyphs; unarchives the glyph. */
   onRemove?: () => void
 }
@@ -38,7 +40,7 @@ function Row({
  * The inspector readout: six copyable metadata rows plus the action row
  * (copy glyph / favorite).
  */
-export function Detail({ glyph, isFavorite, onCopy, onToggleFavorite, onRemove }: Props) {
+export function Detail({ glyph, isFavorite, onCopy, onToggleFavorite, onCopyLink, onRemove }: Props) {
   const d = detail(glyph)
   const block = blockOf(glyph.cp)?.name ?? '—'
   return (
@@ -51,7 +53,11 @@ export function Detail({ glyph, isFavorite, onCopy, onToggleFavorite, onRemove }
       <Row label="block" value={block} copy={() => onCopy(block, block)} />
       <div className="dact">
         <button className="btn" onClick={() => onCopy(glyph.c, `${glyph.c}  (${glyph.name})`)}>
-          copy <span className="gbig">{glyph.c}</span>
+          <span>copy</span>
+          <span className="gbig">{glyph.c}</span>
+        </button>
+        <button className="btn linkbtn" onClick={onCopyLink} title="copy a shareable link to this glyph">
+          link
         </button>
         <button
           className={'btn gh' + (isFavorite ? ' on' : '')}

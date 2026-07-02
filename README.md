@@ -32,6 +32,10 @@ npm run preview    # preview the production build
   block is derived from its codepoint. Persisted to `localStorage`.
 - **Curation** — the **＋ add** button archives any character you paste; its
   codepoint, decimal, UTF-8 bytes, and block are computed automatically.
+- **Shareable links** — the selected glyph, filter, and search are mirrored to
+  the URL (`?cp=2318&block=misc-technical&q=…`), so a bookmark or reload lands
+  on the same view. The inspector's **link** button copies a direct link to the
+  current glyph; changing filters pushes browser history so Back works.
 - **Keyboard** — `←` / `→` browse through the filtered list.
 - **Settings** (⚙) — display font, tile density, wireframe color, mesh density,
   extrusion depth, projection mode, auto-rotate, and rotate speed.

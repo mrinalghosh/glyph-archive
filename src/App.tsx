@@ -3,6 +3,7 @@ import type { ActiveKey, Glyph, View } from './types'
 import { BLOCKS, blockOf } from './data/glyphs'
 import { fontStack } from './lib/fonts'
 import { parseBackup, serializeBackup } from './lib/backup'
+import { readUrlState, shareUrlFor, syncUrl } from './lib/urlState'
 import { useCollections } from './hooks/useCollections'
 import { useCustomGlyphs } from './hooks/useCustomGlyphs'
 import { useSettings } from './hooks/useSettings'
@@ -29,9 +30,12 @@ export default function App() {
   const collections = useCollections()
   const [settings, setSettings] = useSettings()
 
-  const [selCp, setSelCp] = useState('2318')
-  const [query, setQuery] = useState('')
-  const [activeKey, setActiveKey] = useState<ActiveKey>('all')
+  // Initial view is restored from the URL, so a shared/bookmarked link (and a
+  // plain reload) lands on the same glyph, filter, and search.
+  const url0 = useRef(readUrlState()).current
+  const [selCp, setSelCp] = useState(url0.cp ?? '2318')
+  const [query, setQuery] = useState(url0.query)
+  const [activeKey, setActiveKey] = useState<ActiveKey>(url0.filter)
   const [view, setView] = useState<View>('wire')
   const [status, setStatus] = useState('> drag the wireframe · click a glyph')
   const [showSettings, setShowSettings] = useState(false)
@@ -89,6 +93,10 @@ export default function App() {
     // On mobile, picking a glyph reveals the inspector; no-op on wide screens.
     setMobilePane('stage')
   }, [])
+
+  const copyLink = useCallback(() => {
+    copyText(shareUrlFor({ cp: cur?.cp ?? null, filter: activeKey, query }), 'link to this glyph')
+  }, [cur, activeKey, query, copyText])
 
   const toggleFav = useCallback(() => {
     if (!cur) return
@@ -175,6 +183,31 @@ export default function App() {
     return () => window.removeEventListener('keydown', onKey)
   }, [select])
 
+  // ---- URL <-> state sync (shareable / bookmarkable views) ----
+  // Reflect the displayed glyph (cur, not raw selCp — so an unknown codepoint in
+  // a shared link self-corrects to the fallback). A filter change pushes a
+  // history entry; selection/search only replace it, so Back steps by filter.
+  const prevFilter = useRef(activeKey)
+  useEffect(() => {
+    const method = activeKey !== prevFilter.current ? 'push' : 'replace'
+    prevFilter.current = activeKey
+    syncUrl({ cp: cur?.cp ?? null, filter: activeKey, query }, method)
+  }, [cur, activeKey, query])
+
+  // Back/forward: adopt the state encoded in the entry we navigated to. Update
+  // prevFilter first so the sync effect sees no filter change and won't re-push.
+  useEffect(() => {
+    const onPop = () => {
+      const s = readUrlState()
+      prevFilter.current = s.filter
+      setActiveKey(s.filter)
+      setQuery(s.query)
+      if (s.cp) setSelCp(s.cp)
+    }
+    window.addEventListener('popstate', onPop)
+    return () => window.removeEventListener('popstate', onPop)
+  }, [])
+
   const rootStyle = { '--gf': fontStack(settings.font) } as React.CSSProperties
 
   if (!cur) return null
@@ -209,6 +242,7 @@ export default function App() {
           isFavorite={collections.isFavorite(cur.cp)}
           onCopy={copyText}
           onToggleFavorite={toggleFav}
+          onCopyLink={copyLink}
           onRemove={cur.custom ? handleRemove : undefined}
           onBack={() => setMobilePane('grid')}
         />

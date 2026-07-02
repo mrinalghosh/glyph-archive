@@ -10,6 +10,8 @@ interface Props {
   isFavorite: boolean
   onCopy: (text: string, label: string) => void
   onToggleFavorite: () => void
+  /** Copy a shareable link to the current glyph/view. */
+  onCopyLink: () => void
   /** Present only for user-added glyphs; unarchives the glyph. */
   onRemove?: () => void
   /** Return to the grid on mobile (single-pane master/detail). */
@@ -25,6 +27,7 @@ export function Stage({
   isFavorite,
   onCopy,
   onToggleFavorite,
+  onCopyLink,
   onRemove,
   onBack,
 }: Props) {
@@ -62,6 +65,7 @@ export function Stage({
         isFavorite={isFavorite}
         onCopy={onCopy}
         onToggleFavorite={onToggleFavorite}
+        onCopyLink={onCopyLink}
         onRemove={onRemove}
       />
     </div>
