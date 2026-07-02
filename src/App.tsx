@@ -44,7 +44,6 @@ export default function App() {
       if (activeKey === 'all') return true
       if (activeKey === 'fav') return fav.includes(g.cp)
       if (activeKey.startsWith('cat:')) return g.cat === activeKey.slice(4)
-      if (activeKey.startsWith('col:')) return (collections.cols[activeKey.slice(4)] || []).includes(g.cp)
       return true
     }
     const matchQ = (g: Glyph) =>
@@ -77,32 +76,6 @@ export default function App() {
     const added = collections.toggleFavorite(cur.cp)
     setStatus(added ? '★ added to favorites' : '> removed from favorites')
   }, [collections, cur])
-
-  const addTo = useCallback(() => {
-    if (!cur) return
-    let target: string
-    if (activeKey === 'fav') target = 'Favorites'
-    else if (activeKey.startsWith('col:')) target = activeKey.slice(4)
-    else {
-      const n = window.prompt('Add to collection (new or existing name):')
-      if (!n) return
-      target = n.trim()
-      if (!target) return
-    }
-    collections.addToCollection(target, cur.cp)
-    setActiveKey(target === 'Favorites' ? 'fav' : (`col:${target}` as ActiveKey))
-    setStatus('＋ added to “' + target + '”')
-  }, [activeKey, collections, cur])
-
-  const newCol = useCallback(() => {
-    const n = window.prompt('New collection name:')
-    if (!n) return
-    const name = n.trim()
-    if (!name) return
-    collections.createCollection(name)
-    setActiveKey(`col:${name}` as ActiveKey)
-    setStatus('> collection “' + name + '” — press ＋ to add glyphs')
-  }, [collections])
 
   const handleAdd = useCallback(
     (g: Omit<Glyph, 'custom'>): boolean => {
@@ -163,13 +136,7 @@ export default function App() {
         onToggleSettings={() => setShowSettings((v) => !v)}
         settingsOpen={showSettings}
       />
-      <FilterBar
-        activeKey={activeKey}
-        categories={categories}
-        userCols={collections.userCols}
-        onSelect={setActiveKey}
-        onNewCollection={newCol}
-      />
+      <FilterBar activeKey={activeKey} categories={categories} onSelect={setActiveKey} />
       <div className="main">
         <Stage
           glyph={cur}
@@ -179,7 +146,6 @@ export default function App() {
           isFavorite={collections.isFavorite(cur.cp)}
           onCopy={copyText}
           onToggleFavorite={toggleFav}
-          onAddToCollection={addTo}
           onRemove={cur.custom ? handleRemove : undefined}
         />
         <Browser

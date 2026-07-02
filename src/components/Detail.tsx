@@ -7,7 +7,6 @@ interface Props {
   /** Copy an arbitrary representation and echo `label` in the status bar. */
   onCopy: (text: string, label: string) => void
   onToggleFavorite: () => void
-  onAddToCollection: () => void
   /** Present only for user-added glyphs; unarchives the glyph. */
   onRemove?: () => void
 }
@@ -36,9 +35,9 @@ function Row({
 
 /**
  * The inspector readout: six copyable metadata rows plus the action row
- * (copy glyph / favorite / add-to-collection).
+ * (copy glyph / favorite).
  */
-export function Detail({ glyph, isFavorite, onCopy, onToggleFavorite, onAddToCollection, onRemove }: Props) {
+export function Detail({ glyph, isFavorite, onCopy, onToggleFavorite, onRemove }: Props) {
   const d = detail(glyph)
   return (
     <div className="detail">
@@ -58,9 +57,6 @@ export function Detail({ glyph, isFavorite, onCopy, onToggleFavorite, onAddToCol
           title={isFavorite ? 'remove from favorites' : 'add to favorites'}
         >
           ★
-        </button>
-        <button className="btn gh" onClick={onAddToCollection} title="add to collection">
-          ＋
         </button>
       </div>
       {onRemove && (

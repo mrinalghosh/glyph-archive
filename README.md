@@ -4,8 +4,8 @@ A minimal, terminal-styled web app for curating a personal collection of
 interesting UTF-8 characters — technical, APL, astronomical, geometric, and mark
 symbols. Browse a grid of glyphs, inspect one's full Unicode metadata, copy any
 representation to the clipboard, and render any character as an **orbitable 3D
-wireframe**. Organize glyphs into favorites and custom collections, and archive
-your own characters — everything persists locally in the browser.
+wireframe**. Mark glyphs as favorites and archive your own characters —
+everything persists locally in the browser.
 
 Built with React + Vite + TypeScript. The wireframe is drawn on a `<canvas>`
 with a hand-rolled projector; there are no runtime dependencies beyond React.
@@ -28,8 +28,8 @@ npm run preview    # preview the production build
   category. Click any value to copy just that representation.
 - **Search** — matches name, `U+xxxx`, raw hex, decimal, or an exact pasted
   character.
-- **Collections** — filter by category, favorite glyphs (★), and create custom
-  named collections. Persisted to `localStorage`.
+- **Favorites** — filter by category and favorite glyphs (★). Persisted to
+  `localStorage`.
 - **Curation** — the **＋ add** button archives any character you paste; its
   codepoint, decimal, and UTF-8 bytes are computed automatically.
 - **Keyboard** — `←` / `→` browse through the filtered list.
@@ -48,7 +48,7 @@ src/
     settings.ts         default tweakable params + color presets
     storage.ts          localStorage helpers + keys
   hooks/
-    useCollections.ts   favorites + custom collections (persisted)
+    useCollections.ts   favorites (persisted)
     useCustomGlyphs.ts  seed set + user-added glyphs (persisted)
     useSettings.ts      tweakable render/display settings (persisted)
     usePersistentState.ts  generic localStorage-backed useState
@@ -63,7 +63,7 @@ The seed dataset lives in [`src/data/glyphs.ts`](src/data/glyphs.ts). Add more
 glyphs there for permanent, shipped entries, or use the in-app **＋ add** flow
 for personal ones. Browser state is stored under three keys:
 
-- `glyphs.cols` — `{ [collectionName]: codepointHex[] }`, always with `Favorites`
+- `glyphs.cols` — `{ Favorites: codepointHex[] }`
 - `glyphs.custom` — user-archived glyph records
 - `glyphs.settings` — the tweakable render/display parameters
 

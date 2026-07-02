@@ -10,7 +10,6 @@ interface Props {
   isFavorite: boolean
   onCopy: (text: string, label: string) => void
   onToggleFavorite: () => void
-  onAddToCollection: () => void
   /** Present only for user-added glyphs; unarchives the glyph. */
   onRemove?: () => void
 }
@@ -24,7 +23,6 @@ export function Stage({
   isFavorite,
   onCopy,
   onToggleFavorite,
-  onAddToCollection,
   onRemove,
 }: Props) {
   return (
@@ -58,7 +56,6 @@ export function Stage({
         isFavorite={isFavorite}
         onCopy={onCopy}
         onToggleFavorite={onToggleFavorite}
-        onAddToCollection={onAddToCollection}
         onRemove={onRemove}
       />
     </div>

@@ -36,8 +36,8 @@ export interface Settings {
   rotateSpeed: number
 }
 
-/** Map of collection name -> list of member codepoints (hex). Always contains `Favorites`. */
+/** Collection storage. Currently just the built-in `Favorites` list of codepoints (hex). */
 export type Collections = Record<string, string[]>
 
-/** Active filter key: all | favorites | a category | a custom collection. */
-export type ActiveKey = 'all' | 'fav' | `cat:${string}` | `col:${string}`
+/** Active filter key: all | favorites | a category. */
+export type ActiveKey = 'all' | 'fav' | `cat:${string}`

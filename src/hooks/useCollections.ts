@@ -11,24 +11,17 @@ function loadCollections(): Collections {
 
 export interface CollectionsApi {
   cols: Collections
-  /** Custom collection names (everything except the built-in Favorites). */
-  userCols: string[]
   isFavorite: (cp: string) => boolean
   /** Toggle favorite; returns true if the glyph was added, false if removed. */
   toggleFavorite: (cp: string) => boolean
-  /** Add a codepoint to a named collection (created if missing). */
-  addToCollection: (name: string, cp: string) => void
-  /** Create an empty named collection. Returns false if it already existed. */
-  createCollection: (name: string) => boolean
 }
 
 /**
- * Manage favorite + custom collections, persisted to localStorage under
- * `glyphs.cols` with shape `{ [name]: codepointHex[] }` (always including
- * `Favorites`).
+ * Manage the built-in Favorites collection, persisted to localStorage under
+ * `glyphs.cols` with shape `{ Favorites: codepointHex[] }`.
  *
- * Return values (added? / created?) are derived from the current render's
- * snapshot, while the mutations themselves use functional updates so they stay
+ * `toggleFavorite`'s return value (added?) is derived from the current render's
+ * snapshot, while the mutation itself uses a functional update so it stays
  * correct under React's batching.
  */
 export function useCollections(): CollectionsApi {
@@ -55,24 +48,5 @@ export function useCollections(): CollectionsApi {
     [cols],
   )
 
-  const addToCollection = useCallback((name: string, cp: string) => {
-    setCols((prev) => {
-      const arr = (prev[name] || []).slice()
-      if (!arr.includes(cp)) arr.push(cp)
-      return { ...prev, [name]: arr }
-    })
-  }, [])
-
-  const createCollection = useCallback(
-    (name: string): boolean => {
-      const created = !cols[name]
-      setCols((prev) => (prev[name] ? prev : { ...prev, [name]: [] }))
-      return created
-    },
-    [cols],
-  )
-
-  const userCols = Object.keys(cols).filter((n) => n !== 'Favorites')
-
-  return { cols, userCols, isFavorite, toggleFavorite, addToCollection, createCollection }
+  return { cols, isFavorite, toggleFavorite }
 }
