@@ -4,6 +4,7 @@ import { BOX_DRAWING } from './blocks/boxDrawing'
 import { BLOCK_ELEMENTS } from './blocks/blockElements'
 import { GEOMETRIC_SHAPES } from './blocks/geometricShapes'
 import { MISC_SYMBOLS } from './blocks/miscSymbols'
+import { DINGBATS } from './blocks/dingbats'
 
 /** A shipped Unicode block: an inclusive codepoint range and its generated glyphs. */
 export interface Block {
@@ -30,6 +31,7 @@ export const BLOCKS: Block[] = [
   { id: 'block-elements', name: 'Block Elements', lo: 0x2580, hi: 0x259f, glyphs: BLOCK_ELEMENTS },
   { id: 'geometric-shapes', name: 'Geometric Shapes', lo: 0x25a0, hi: 0x25ff, glyphs: GEOMETRIC_SHAPES },
   { id: 'misc-symbols', name: 'Miscellaneous Symbols', lo: 0x2600, hi: 0x26ff, glyphs: MISC_SYMBOLS },
+  { id: 'dingbats', name: 'Dingbats', lo: 0x2700, hi: 0x27bf, glyphs: DINGBATS },
 ]
 
 /** The full shipped dataset: every block's glyphs, in block order. */
