@@ -92,6 +92,32 @@ export function buildModel(char: string, density: number, depth: number, font: S
     }
     if (f > 0 && t > 0) seg.push([nx(li), ny(lj), depth, nx(li), ny(lj), -depth])
   })
+
+  // Recenter the model on its own ink so it sits centered in the canvas and
+  // orbits around its visual middle. Rasterizing with textBaseline 'middle'
+  // centers the font's em-box, not the glyph — so descenders and low-sitting
+  // symbols ('.', 'g', many arrows) would otherwise render offset from center.
+  // (Z is already symmetric about 0, so only X/Y need shifting.)
+  let minX = Infinity
+  let maxX = -Infinity
+  let minY = Infinity
+  let maxY = -Infinity
+  for (const s of seg) {
+    minX = Math.min(minX, s[0], s[3])
+    maxX = Math.max(maxX, s[0], s[3])
+    minY = Math.min(minY, s[1], s[4])
+    maxY = Math.max(maxY, s[1], s[4])
+  }
+  if (Number.isFinite(minX)) {
+    const mx = (minX + maxX) / 2
+    const my = (minY + maxY) / 2
+    for (const s of seg) {
+      s[0] -= mx
+      s[3] -= mx
+      s[1] -= my
+      s[4] -= my
+    }
+  }
   return seg
 }
 
