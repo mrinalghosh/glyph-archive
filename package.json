@@ -14,7 +14,8 @@
     "gen:block-elements": "node scripts/gen-glyphs.mjs --range 2580-259F --export BLOCK_ELEMENTS --out src/data/blocks/blockElements.ts",
     "gen:geometric-shapes": "node scripts/gen-glyphs.mjs --range 25A0-25FF --export GEOMETRIC_SHAPES --out src/data/blocks/geometricShapes.ts",
     "gen:misc-symbols": "node scripts/gen-glyphs.mjs --range 2600-26FF --export MISC_SYMBOLS --out src/data/blocks/miscSymbols.ts",
-    "gen:dingbats": "node scripts/gen-glyphs.mjs --range 2700-27BF --export DINGBATS --out src/data/blocks/dingbats.ts"
+    "gen:dingbats": "node scripts/gen-glyphs.mjs --range 2700-27BF --export DINGBATS --out src/data/blocks/dingbats.ts",
+    "gen:misc-symbols-arrows": "node scripts/gen-glyphs.mjs --range 2B00-2BFF --export MISC_SYMBOLS_AND_ARROWS --out src/data/blocks/miscSymbolsAndArrows.ts"
   },
   "dependencies": {
     "react": "^19.1.0",

@@ -5,6 +5,7 @@ import { BLOCK_ELEMENTS } from './blocks/blockElements'
 import { GEOMETRIC_SHAPES } from './blocks/geometricShapes'
 import { MISC_SYMBOLS } from './blocks/miscSymbols'
 import { DINGBATS } from './blocks/dingbats'
+import { MISC_SYMBOLS_AND_ARROWS } from './blocks/miscSymbolsAndArrows'
 
 /** A shipped Unicode block: an inclusive codepoint range and its generated glyphs. */
 export interface Block {
@@ -32,6 +33,7 @@ export const BLOCKS: Block[] = [
   { id: 'geometric-shapes', name: 'Geometric Shapes', lo: 0x25a0, hi: 0x25ff, glyphs: GEOMETRIC_SHAPES },
   { id: 'misc-symbols', name: 'Miscellaneous Symbols', lo: 0x2600, hi: 0x26ff, glyphs: MISC_SYMBOLS },
   { id: 'dingbats', name: 'Dingbats', lo: 0x2700, hi: 0x27bf, glyphs: DINGBATS },
+  { id: 'misc-symbols-arrows', name: 'Miscellaneous Symbols and Arrows', lo: 0x2b00, hi: 0x2bff, glyphs: MISC_SYMBOLS_AND_ARROWS },
 ]
 
 /** The full shipped dataset: every block's glyphs, in block order. */
