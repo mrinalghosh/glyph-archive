@@ -7,4 +7,8 @@ import react from '@vitejs/plugin-react'
 export default defineConfig(({ command }) => ({
   base: command === 'build' ? '/glyph-archive/' : '/',
   plugins: [react()],
+  // Dev server and `vite preview` both pin to 8888; `strictPort` fails loudly
+  // instead of silently hopping to the next free port if 8888 is taken.
+  server: { port: 8888, strictPort: true },
+  preview: { port: 8888, strictPort: true },
 }))
