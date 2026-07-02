@@ -13,6 +13,12 @@ export interface CustomGlyphsApi {
   add: (g: Omit<Glyph, 'custom'>) => boolean
   /** Remove a user-added glyph by codepoint (seed glyphs cannot be removed). */
   remove: (cp: string) => void
+  /**
+   * Add many glyphs at once, skipping any whose codepoint is already archived
+   * (against the seed set, existing customs, or an earlier item in the batch).
+   * Returns the number actually added.
+   */
+  merge: (incoming: Glyph[]) => number
 }
 
 /**
@@ -40,5 +46,17 @@ export function useCustomGlyphs(): CustomGlyphsApi {
     setCustom((prev) => prev.filter((g) => g.cp !== cp))
   }
 
-  return { glyphs, custom, add, remove }
+  const merge = (incoming: Glyph[]): number => {
+    const seen = new Set(glyphs.map((g) => g.cp))
+    const toAdd: Glyph[] = []
+    for (const g of incoming) {
+      if (seen.has(g.cp)) continue
+      seen.add(g.cp)
+      toAdd.push({ c: g.c, cp: g.cp, name: g.name, custom: true })
+    }
+    if (toAdd.length) setCustom((prev) => [...prev, ...toAdd])
+    return toAdd.length
+  }
+
+  return { glyphs, custom, add, remove, merge }
 }

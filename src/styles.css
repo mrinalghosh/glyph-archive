@@ -666,6 +666,14 @@ canvas.wire:active {
   opacity: 0.4;
   cursor: not-allowed;
 }
+.datarow {
+  display: flex;
+  gap: 8px;
+}
+.datarow .preset {
+  flex: 1;
+  margin-top: 0;
+}
 
 /* ---- add-glyph dialog ---------------------------------------------------- */
 .overlay {

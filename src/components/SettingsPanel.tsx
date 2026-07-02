@@ -1,4 +1,4 @@
-import type { Dispatch, SetStateAction } from 'react'
+import { useRef, type Dispatch, type SetStateAction } from 'react'
 import type { FontChoice, Projection, Settings, TileSize } from '../types'
 import { DEFAULT_SETTINGS, WIRE_COLORS } from '../lib/settings'
 
@@ -6,6 +6,10 @@ interface Props {
   settings: Settings
   setSettings: Dispatch<SetStateAction<Settings>>
   onClose: () => void
+  /** Download the user's archive + favorites + settings as a JSON backup. */
+  onExport: () => void
+  /** Merge a chosen backup file into the user's data. */
+  onImport: (file: File) => void
 }
 
 /** A labeled group in the settings panel. */
@@ -74,8 +78,9 @@ function Slider({
  * The settings drawer. Exposes every tweakable render/display parameter from
  * the design spec, persisted via the parent's Settings state.
  */
-export function SettingsPanel({ settings, setSettings, onClose }: Props) {
+export function SettingsPanel({ settings, setSettings, onClose, onExport, onImport }: Props) {
   const set = (patch: Partial<Settings>) => setSettings((s) => ({ ...s, ...patch }))
+  const fileRef = useRef<HTMLInputElement>(null)
 
   return (
     <div className="panel" role="dialog" aria-label="settings">
@@ -159,6 +164,33 @@ export function SettingsPanel({ settings, setSettings, onClose }: Props) {
             value={settings.rotateSpeed}
             onChange={(rotateSpeed) => set({ rotateSpeed })}
             format={(v) => v.toFixed(2)}
+          />
+        </Field>
+
+        <Field label="data">
+          <div className="datarow">
+            <button className="preset" onClick={onExport} title="download a JSON backup of your archive">
+              export backup
+            </button>
+            <button
+              className="preset"
+              onClick={() => fileRef.current?.click()}
+              title="merge a JSON backup into your archive"
+            >
+              import backup
+            </button>
+          </div>
+          <input
+            ref={fileRef}
+            type="file"
+            accept="application/json,.json"
+            hidden
+            onChange={(e) => {
+              const file = e.target.files?.[0]
+              if (file) onImport(file)
+              // Reset so choosing the same file again still fires onChange.
+              e.target.value = ''
+            }}
           />
         </Field>
 

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { ActiveKey, Glyph, View } from './types'
 import { BLOCKS, blockOf } from './data/glyphs'
 import { fontStack } from './lib/fonts'
+import { parseBackup, serializeBackup } from './lib/backup'
 import { useCollections } from './hooks/useCollections'
 import { useCustomGlyphs } from './hooks/useCustomGlyphs'
 import { useSettings } from './hooks/useSettings'
@@ -13,8 +14,18 @@ import { StatusBar } from './components/StatusBar'
 import { SettingsPanel } from './components/SettingsPanel'
 import { AddGlyphDialog } from './components/AddGlyphDialog'
 
+/** Trigger a client-side download of `text` as a file named `filename`. */
+function downloadText(filename: string, text: string) {
+  const url = URL.createObjectURL(new Blob([text], { type: 'application/json' }))
+  const a = document.createElement('a')
+  a.href = url
+  a.download = filename
+  a.click()
+  URL.revokeObjectURL(url)
+}
+
 export default function App() {
-  const { glyphs, add: addGlyph, remove: removeGlyph } = useCustomGlyphs()
+  const { glyphs, custom, add: addGlyph, remove: removeGlyph, merge: mergeGlyphs } = useCustomGlyphs()
   const collections = useCollections()
   const [settings, setSettings] = useSettings()
 
@@ -106,6 +117,41 @@ export default function App() {
     setStatus('✕ removed ' + cur.c + ' from archive')
   }, [cur, removeGlyph])
 
+  // ---- backup export / import ----
+  const handleExport = useCallback(() => {
+    const now = new Date()
+    const text = serializeBackup(
+      { custom, favorites: collections.cols.Favorites || [], settings },
+      now.toISOString(),
+    )
+    downloadText('utf-8-collection-' + now.toISOString().slice(0, 10) + '.json', text)
+    setStatus('⭳ exported backup (' + custom.length + ' glyphs)')
+  }, [custom, collections.cols, settings])
+
+  const handleImport = useCallback(
+    async (file: File) => {
+      let data
+      try {
+        data = parseBackup(await file.text())
+      } catch (e) {
+        setStatus('✕ import failed — ' + (e instanceof Error ? e.message : 'unreadable file'))
+        return
+      }
+      const addedGlyphs = mergeGlyphs(data.custom)
+      const addedFavs = collections.mergeFavorites(data.favorites)
+      if (data.settings) setSettings(data.settings)
+      const plural = (n: number, word: string) => n + ' ' + word + (n === 1 ? '' : 's')
+      setStatus(
+        '⭱ imported ' +
+          plural(addedGlyphs, 'glyph') +
+          ', ' +
+          plural(addedFavs, 'favorite') +
+          (data.settings ? ' · settings applied' : ''),
+      )
+    },
+    [mergeGlyphs, collections, setSettings],
+  )
+
   // ---- keyboard navigation (arrow keys cycle the filtered list) ----
   const shownRef = useRef(shown)
   shownRef.current = shown
@@ -177,7 +223,13 @@ export default function App() {
       <StatusBar status={status} />
 
       {showSettings && (
-        <SettingsPanel settings={settings} setSettings={setSettings} onClose={() => setShowSettings(false)} />
+        <SettingsPanel
+          settings={settings}
+          setSettings={setSettings}
+          onClose={() => setShowSettings(false)}
+          onExport={handleExport}
+          onImport={handleImport}
+        />
       )}
       {showAdd && (
         <AddGlyphDialog

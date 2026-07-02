@@ -35,6 +35,11 @@ npm run preview    # preview the production build
 - **Keyboard** — `←` / `→` browse through the filtered list.
 - **Settings** (⚙) — display font, tile density, wireframe color, mesh density,
   extrusion depth, projection mode, auto-rotate, and rotate speed.
+- **Backup** — under Settings ▸ data, **export** your archive, favorites, and
+  settings to a JSON file, and **import** one back. Import is additive: new
+  glyphs and favorites are merged in (deduped by codepoint), settings applied
+  only if the file carries them. Guards your browser-local data against a
+  cleared cache and moves it between browsers/devices.
 
 ## Project layout
 
@@ -93,6 +98,13 @@ Browser state is stored under three keys:
 - `glyphs.cols` — `{ Favorites: codepointHex[] }`
 - `glyphs.custom` — user-archived glyph records
 - `glyphs.settings` — the tweakable render/display parameters
+
+All three are bundled into a single portable file by the backup export
+([`src/lib/backup.ts`](src/lib/backup.ts)) — a versioned
+`{ format, version, exportedAt, custom, favorites, settings }` envelope. Import
+validates defensively: malformed glyph/favorite records are skipped rather than
+failing the whole file, and only a fundamentally unrecognizable file is
+rejected outright.
 
 ## Credits
 

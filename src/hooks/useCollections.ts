@@ -14,6 +14,8 @@ export interface CollectionsApi {
   isFavorite: (cp: string) => boolean
   /** Toggle favorite; returns true if the glyph was added, false if removed. */
   toggleFavorite: (cp: string) => boolean
+  /** Union codepoints into Favorites, skipping ones already present; returns the count added. */
+  mergeFavorites: (cps: string[]) => number
 }
 
 /**
@@ -48,5 +50,16 @@ export function useCollections(): CollectionsApi {
     [cols],
   )
 
-  return { cols, isFavorite, toggleFavorite }
+  const mergeFavorites = useCallback((cps: string[]): number => {
+    const existing = new Set(cols.Favorites || [])
+    const toAdd = cps.filter((cp) => {
+      if (existing.has(cp)) return false
+      existing.add(cp)
+      return true
+    })
+    if (toAdd.length) setCols((prev) => ({ ...prev, Favorites: [...(prev.Favorites || []), ...toAdd] }))
+    return toAdd.length
+  }, [cols])
+
+  return { cols, isFavorite, toggleFavorite, mergeFavorites }
 }
