@@ -10,6 +10,7 @@
     "preview": "vite preview",
     "typecheck": "tsc -b --noEmit",
     "gen:misc-technical": "node scripts/gen-glyphs.mjs --range 2300-23FF --export MISC_TECHNICAL --out src/data/blocks/miscTechnical.ts",
+    "gen:ocr": "node scripts/gen-glyphs.mjs --range 2440-245F --export OCR --out src/data/blocks/ocr.ts",
     "gen:box-drawing": "node scripts/gen-glyphs.mjs --range 2500-257F --export BOX_DRAWING --out src/data/blocks/boxDrawing.ts",
     "gen:block-elements": "node scripts/gen-glyphs.mjs --range 2580-259F --export BLOCK_ELEMENTS --out src/data/blocks/blockElements.ts",
     "gen:geometric-shapes": "node scripts/gen-glyphs.mjs --range 25A0-25FF --export GEOMETRIC_SHAPES --out src/data/blocks/geometricShapes.ts",
