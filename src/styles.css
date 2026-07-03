@@ -99,6 +99,11 @@ body {
 }
 
 /* ---- filter bar (collections) -------------------------------------------- */
+/* wraps the scrollable row so the edge scroll cues can overlay its ends */
+.fbar-wrap {
+  position: relative;
+  flex: none;
+}
 .fbar {
   display: flex;
   align-items: center;
@@ -108,6 +113,41 @@ body {
   flex: none;
   overflow-x: auto;
   gap: 0;
+  scrollbar-width: none; /* the ‹ / › cues stand in for the scrollbar */
+}
+.fbar::-webkit-scrollbar {
+  display: none;
+}
+.scroll-cue {
+  position: absolute;
+  top: 0;
+  bottom: 1px; /* clear the row's 1px bottom border */
+  width: 32px;
+  display: flex;
+  align-items: center;
+  border: none;
+  padding: 0 6px;
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 1;
+  color: var(--ink);
+  cursor: pointer;
+  z-index: 2;
+  transition: opacity 0.12s;
+}
+.scroll-cue.left {
+  left: 0;
+  justify-content: flex-start;
+  background: linear-gradient(to right, var(--bg) 70%, transparent);
+}
+.scroll-cue.right {
+  right: 0;
+  justify-content: flex-end;
+  background: linear-gradient(to left, var(--bg) 70%, transparent);
+}
+.scroll-cue.hide {
+  opacity: 0;
+  pointer-events: none;
 }
 .chip {
   flex: none;

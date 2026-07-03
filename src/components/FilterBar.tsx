@@ -1,4 +1,5 @@
 import type { ActiveKey } from '../types'
+import { ScrollRow } from './ScrollRow'
 
 interface Props {
   activeKey: ActiveKey
@@ -46,7 +47,7 @@ export function FilterBar({ activeKey, blocks, onSelect }: Props) {
   }
 
   return (
-    <div className="fbar">
+    <ScrollRow className="fbar">
       {chips.map((ch) =>
         ch.cls.includes('sep') ? (
           <span key={ch.key} className={'chip ' + ch.cls} aria-hidden="true">
@@ -58,6 +59,6 @@ export function FilterBar({ activeKey, blocks, onSelect }: Props) {
           </button>
         ),
       )}
-    </div>
+    </ScrollRow>
   )
 }
