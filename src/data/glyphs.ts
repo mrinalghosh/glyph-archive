@@ -9,6 +9,7 @@ import { BLOCK_ELEMENTS } from './blocks/blockElements'
 import { GEOMETRIC_SHAPES } from './blocks/geometricShapes'
 import { MISC_SYMBOLS } from './blocks/miscSymbols'
 import { DINGBATS } from './blocks/dingbats'
+import { SUPPLEMENTAL_ARROWS_B } from './blocks/supplementalArrowsB'
 import { MISC_SYMBOLS_AND_ARROWS } from './blocks/miscSymbolsAndArrows'
 import { ALCHEMICAL_SYMBOLS } from './blocks/alchemicalSymbols'
 
@@ -42,6 +43,7 @@ export const BLOCKS: Block[] = [
   { id: 'geometric-shapes', name: 'Geometric Shapes', lo: 0x25a0, hi: 0x25ff, glyphs: GEOMETRIC_SHAPES },
   { id: 'misc-symbols', name: 'Miscellaneous Symbols', lo: 0x2600, hi: 0x26ff, glyphs: MISC_SYMBOLS },
   { id: 'dingbats', name: 'Dingbats', lo: 0x2700, hi: 0x27bf, glyphs: DINGBATS },
+  { id: 'supplemental-arrows-b', name: 'Supplemental Arrows-B', lo: 0x2900, hi: 0x297f, glyphs: SUPPLEMENTAL_ARROWS_B },
   { id: 'misc-symbols-arrows', name: 'Miscellaneous Symbols and Arrows', lo: 0x2b00, hi: 0x2bff, glyphs: MISC_SYMBOLS_AND_ARROWS },
   { id: 'alchemical-symbols', name: 'Alchemical Symbols', lo: 0x1f700, hi: 0x1f77f, glyphs: ALCHEMICAL_SYMBOLS },
 ]
