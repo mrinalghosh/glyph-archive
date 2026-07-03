@@ -12,6 +12,7 @@ import { DINGBATS } from './blocks/dingbats'
 import { SUPPLEMENTAL_ARROWS_B } from './blocks/supplementalArrowsB'
 import { SUPPLEMENTAL_MATHEMATICAL_OPERATORS } from './blocks/supplementalMathematicalOperators'
 import { MISC_SYMBOLS_AND_ARROWS } from './blocks/miscSymbolsAndArrows'
+import { IDEOGRAPHIC_DESCRIPTION_CHARACTERS } from './blocks/ideographicDescriptionCharacters'
 import { ALCHEMICAL_SYMBOLS } from './blocks/alchemicalSymbols'
 
 /** A shipped Unicode block: an inclusive codepoint range and its generated glyphs. */
@@ -47,6 +48,7 @@ export const BLOCKS: Block[] = [
   { id: 'supplemental-arrows-b', name: 'Supplemental Arrows-B', lo: 0x2900, hi: 0x297f, glyphs: SUPPLEMENTAL_ARROWS_B },
   { id: 'supplemental-mathematical-operators', name: 'Supplemental Mathematical Operators', lo: 0x2a00, hi: 0x2aff, glyphs: SUPPLEMENTAL_MATHEMATICAL_OPERATORS },
   { id: 'misc-symbols-arrows', name: 'Miscellaneous Symbols and Arrows', lo: 0x2b00, hi: 0x2bff, glyphs: MISC_SYMBOLS_AND_ARROWS },
+  { id: 'ideographic-description-characters', name: 'Ideographic Description Characters', lo: 0x2ff0, hi: 0x2fff, glyphs: IDEOGRAPHIC_DESCRIPTION_CHARACTERS },
   { id: 'alchemical-symbols', name: 'Alchemical Symbols', lo: 0x1f700, hi: 0x1f77f, glyphs: ALCHEMICAL_SYMBOLS },
 ]
 
