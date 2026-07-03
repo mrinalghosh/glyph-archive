@@ -7,6 +7,8 @@ import { readUrlState, shareUrlFor, syncUrl } from './lib/urlState'
 import { useCollections } from './hooks/useCollections'
 import { useCustomGlyphs } from './hooks/useCustomGlyphs'
 import { useSettings } from './hooks/useSettings'
+import { usePersistentState } from './hooks/usePersistentState'
+import { STORAGE_KEYS } from './lib/storage'
 import { HeaderBar } from './components/HeaderBar'
 import { FilterBar } from './components/FilterBar'
 import { Stage } from './components/Stage'
@@ -36,7 +38,9 @@ export default function App() {
   const [selCp, setSelCp] = useState(url0.cp ?? '2318')
   const [query, setQuery] = useState(url0.query)
   const [activeKey, setActiveKey] = useState<ActiveKey>(url0.filter)
-  const [view, setView] = useState<View>('wire')
+  // View mode (wireframe vs flat) is a personal display preference, so it lives
+  // in localStorage rather than the URL — no reason to bake it into a shared link.
+  const [view, setView] = usePersistentState<View>(STORAGE_KEYS.view, 'wire')
   const [status, setStatus] = useState('> drag the wireframe · click a glyph')
   const [showSettings, setShowSettings] = useState(false)
   const [showAdd, setShowAdd] = useState(false)

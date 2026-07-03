@@ -3,6 +3,7 @@ export const STORAGE_KEYS = {
   collections: 'glyphs.cols',
   custom: 'glyphs.custom',
   settings: 'glyphs.settings',
+  view: 'glyphs.view',
 } as const
 
 /** Read and JSON-parse a localStorage value, falling back on any error. */
