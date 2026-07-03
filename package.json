@@ -23,7 +23,7 @@
     "gen:mathematical-operators": "node scripts/gen-glyphs.mjs --range 2200-22FF --export MATHEMATICAL_OPERATORS --out src/data/blocks/mathematicalOperators.ts",
     "gen:supplemental-mathematical-operators": "node scripts/gen-glyphs.mjs --range 2A00-2AFF --export SUPPLEMENTAL_MATHEMATICAL_OPERATORS --out src/data/blocks/supplementalMathematicalOperators.ts",
     "gen:alchemical-symbols": "node scripts/gen-glyphs.mjs --range 1F700-1F77F --export ALCHEMICAL_SYMBOLS --out src/data/blocks/alchemicalSymbols.ts",
-    "gen:ideographic-description-characters": "node scripts/gen-glyphs.mjs --range 2FF0-2FFF --export IDEOGRAPHIC_DESCRIPTION_CHARACTERS --out src/data/blocks/ideographicDescriptionCharacters.ts"
+    "gen:ideographic-description-characters": "node scripts/gen-glyphs.mjs --range 2FF0-2FFB --export IDEOGRAPHIC_DESCRIPTION_CHARACTERS --out src/data/blocks/ideographicDescriptionCharacters.ts"
   },
   "dependencies": {
     "react": "^19.1.0",
