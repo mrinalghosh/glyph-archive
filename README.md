@@ -93,9 +93,13 @@ for personal characters.
 Astral-plane blocks (above `U+FFFF`, e.g. Alchemical Symbols `U+1F700–1F77F`)
 aren't covered by the primary display fonts, so [`fontStack()`](src/lib/fonts.ts)
 appends **Noto Sans Symbols 2** (loaded via the Google Fonts link in
-[`index.html`](index.html)) as a fallback. The same stack drives both the grid
-and the offscreen raster the wireframe is built from, so a glyph renders
-identically in each — no tofu.
+[`index.html`](index.html)) as a fallback, then a set of common system **CJK**
+families as a last resort for glyphs Symbols 2 also lacks — notably the
+Ideographic Description Characters (`U+2FF0–2FFF`), which live in the CJK world.
+Because the CJK families sit after Symbols 2 in the stack, they only ever catch
+glyphs nothing earlier can render, so no other block's appearance changes. The
+same stack drives both the grid and the offscreen raster the wireframe is built
+from, so a glyph renders identically in each — no tofu.
 
 Browser state is stored under three keys:
 
