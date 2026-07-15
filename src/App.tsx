@@ -136,7 +136,7 @@ export default function App() {
       { custom, favorites: collections.cols.Favorites || [], settings },
       now.toISOString(),
     )
-    downloadText('utf-8-collection-' + now.toISOString().slice(0, 10) + '.json', text)
+    downloadText('unicode-archive-' + now.toISOString().slice(0, 10) + '.json', text)
     setStatus('⭳ exported backup (' + custom.length + ' glyphs)')
   }, [custom, collections.cols, settings])
 

@@ -13,7 +13,7 @@ export function HeaderBar({ query, onSearch, shownCount, count, onAddGlyph, onTo
   return (
     <div className="hbar">
       <span className="brand">
-        utf-8<span>/collection</span>
+        unicode<span>/archive</span>
       </span>
       <input
         className="search"

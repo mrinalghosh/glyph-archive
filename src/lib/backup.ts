@@ -2,7 +2,7 @@ import type { Glyph, Settings } from '../types'
 import { normalizeSettings } from './settings'
 
 /** Identifies our backup files; checked loosely on import. */
-export const BACKUP_FORMAT = 'utf-8/collection'
+export const BACKUP_FORMAT = 'unicode/archive'
 /** Current backup schema version. */
 export const BACKUP_VERSION = 1
 

@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "A terminal-styled web app for curating a personal collection of interesting UTF-8 characters.",
+  "description": "A terminal-styled web app for curating a personal collection of interesting Unicode characters.",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

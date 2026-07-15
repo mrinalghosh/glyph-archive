@@ -1,6 +1,6 @@
-# utf-8/collection
+# unicode/archive
 
-A minimal, terminal-styled web app for browsing UTF-8 characters by Unicode
+A minimal, terminal-styled web app for browsing Unicode characters by
 block and curating the ones you like. The shipped dataset is generated straight
 from the Unicode Character Database; browse a grid of glyphs, inspect one's full
 Unicode metadata, copy any representation to the clipboard, and render any
